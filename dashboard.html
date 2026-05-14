@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syincro Dashboard - Unified Inbox</title>
+  <meta name="description" content="Your unified inbox for all messaging platforms.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <!-- Dashboard Page -->
+  <div class="dashboard-page">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-logo">
+          <div class="sidebar-logo-icon">S</div>
+          Syincro
+        </a>
+        <div class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+          <span>☰</span>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="nav-section">
+        <div class="nav-item active" data-filter="all">
+          <span class="nav-item-icon">📥</span>
+          <span>All</span>
+        </div>
+        <div class="nav-item" data-filter="whatsapp" data-platform="whatsapp">
+          <span class="nav-item-icon">💬</span>
+          <span>WhatsApp</span>
+        </div>
+        <div class="nav-item" data-filter="gmail" data-platform="gmail">
+          <span class="nav-item-icon">✉️</span>
+          <span>Gmail</span>
+        </div>
+        <div class="nav-item" data-filter="sms" data-platform="sms">
+          <span class="nav-item-icon">💬</span>
+          <span>SMS</span>
+        </div>
+        <div class="nav-item" data-filter="slack" data-platform="slack">
+          <span class="nav-item-icon">💬</span>
+          <span>Slack</span>
+        </div>
+        <div class="nav-item" data-filter="telegram" data-platform="telegram">
+          <span class="nav-item-icon">✈️</span>
+          <span>Telegram</span>
+        </div>
+        <div class="nav-item" data-filter="instagram" data-platform="instagram">
+          <span class="nav-item-icon">📸</span>
+          <span>Instagram</span>
+        </div>
+        <div class="nav-item" data-filter="discord" data-platform="discord">
+          <span class="nav-item-icon">💬</span>
+          <span>Discord</span>
+        </div>
+        <div class="nav-item" data-filter="facebook" data-platform="facebook">
+          <span class="nav-item-icon">💙</span>
+          <span>Facebook</span>
+        </div>
+      </nav>
+
+      <nav class="nav-section">
+        <h3 class="nav-section-title">Special</h3>
+        <div class="nav-item" data-filter="flagged">
+          <span class="nav-item-icon">⚠️</span>
+          <span>Flagged</span>
+          <span class="nav-item-badge">3</span>
+        </div>
+        <div class="nav-item" data-filter="tasks">
+          <span class="nav-item-icon">✅</span>
+          <span>Tasks</span>
+        </div>
+      </nav>
+
+      <nav class="nav-section">
+        <h3 class="nav-section-title">Account</h3>
+        <div class="nav-item" data-filter="settings">
+          <span class="nav-item-icon">⚙️</span>
+          <span>Settings</span>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <span>☰</span>
+        </button>
+        
+        <div class="search-container">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            class="search-input" 
+            placeholder="Search messages..."
+            id="searchInput"
+          >
+        </div>
+
+        <div class="top-bar-actions">
+          <div class="theme-toggle" data-active="iconic" title="Toggle theme (Light → Iconic → Dark)">
+            <div class="theme-toggle-slider">
+              <span class="theme-icon">☀</span>
+            </div>
+          </div>
+          <div class="profile-avatar" title="Profile">JD</div>
+        </div>
+      </header>
+
+      <!-- Inbox Container -->
+      <div class="inbox-container">
+        <!-- Filter Chips -->
+        <div class="filter-chips">
+          <button class="filter-chip active" data-filter="all">
+            <span class="filter-chip-icon">📥</span>All
+          </button>
+          <button class="filter-chip" data-filter="whatsapp">
+            <span class="filter-chip-icon">💬</span>WhatsApp
+          </button>
+          <button class="filter-chip" data-filter="gmail">
+            <span class="filter-chip-icon">✉️</span>Gmail
+          </button>
+          <button class="filter-chip" data-filter="sms">
+            <span class="filter-chip-icon">💬</span>SMS
+          </button>
+          <button class="filter-chip" data-filter="slack">
+            <span class="filter-chip-icon">💬</span>Slack
+          </button>
+          <button class="filter-chip" data-filter="telegram">
+            <span class="filter-chip-icon">✈️</span>Telegram
+          </button>
+          <button class="filter-chip" data-filter="instagram">
+            <span class="filter-chip-icon">📸</span>Instagram
+          </button>
+          <button class="filter-chip" data-filter="discord">
+            <span class="filter-chip-icon">💬</span>Discord
+          </button>
+          <button class="filter-chip" data-filter="facebook">
+            <span class="filter-chip-icon">💙</span>Facebook
+          </button>
+        </div>
+
+        <!-- Messages List -->
+        <div class="messages-list" id="messagesList">
+          <!-- Messages will be rendered by JS -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/shared.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
