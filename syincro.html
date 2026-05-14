@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syincro - One Inbox. All Apps. Zero Scams.</title>
+    <meta name="description" content="Unified safe inbox that merges all messaging platforms with AI scam protection">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="keywords" content="unified inbox, messaging, WhatsApp, Gmail, Slack, Telegram, Instagram, Discord, Facebook, SMS, AI scam protection">
+    <meta name="author" content="Syincro">
+    
+    <!-- Structured Data Placeholder -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Syincro",
+        "applicationCategory": "CommunicationApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+
+    <style>
+        /* ========================================
+           CSS VARIABLES & THEME SYSTEM
+           ======================================== */
+        :root {
+            /* Iconic Mode (Default) */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            --text-primary: #0F172A;
+            --text-secondary: #64748B;
+            --accent: #2563EB;
+            --accent-hover: #1D4ED8;
+            --border: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-glow: 0 10px 15px -3px rgba(37, 99, 235, 0.15);
+            --scam-warning: #EF4444;
+            --success: #10B981;
+            
+            /* Platform Colors */
+            --whatsapp: #25D366;
+            --gmail: #EA4335;
+            --sms: #3B82F6;
+            --slack: #4A154B;
+            --telegram: #0088CC;
+            --instagram: #E4405F;
+            --discord: #5865F2;
+            --facebook: #1877F2;
+            
+            /* Transitions */
+            --transition-fast: 0.2s ease;
+            --transition-medium: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #121212;
+            --bg-secondary: #1E1E1E;
+            --bg-glass: rgba(30, 30, 30, 0.85);
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0AEC0;
+            --accent: #6366F1;
+            --accent-hover: #818CF8;
+            --border: #2D2D2D;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 10px 15px -3px rgba(99, 102, 241, 0.2);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #F9FAFB;
+            --bg-secondary: #FFFFFF;
+            --bg-glass: rgba(255, 255, 255, 0.9);
+            --text-primary: #111827;
+            --text-secondary: #6B7280;
+            --accent: #3B82F6;
+            --accent-hover: #2563EB;
+            --border: #E5E7EB;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 10px 15px -3px rgba(59, 130, 246, 0.15);
+        }
+
+        /* ========================================
+           RESET & BASE STYLES
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color var(--transition-medium), color var(--transition-medium);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: all var(--transition-fast);
+        }
+
+        input, textarea {
+            font-family: inherit;
+            border: none;
+            outline: none;
+        }
+
+        /* ========================================
+           ANIMATIONS
+           ======================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn var(--transition-slow) ease forwards;
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp var(--transition-slow) ease forwards;
+        }
+
+        .animate-slide-up {
+            animation: slideUp var(--transition-medium) ease forwards;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Staggered delays */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        /* ========================================
+           UTILITY CLASSES
+           ======================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ========================================
+           NAVIGATION
+           ======================================== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            transition: all var(--transition-medium);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .theme-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 16px;
+            transition: all var(--transition-fast);
+        }
+
+        .theme-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .theme-btn:hover:not(.active) {
+            background: var(--border);
+        }
+
+        /* ========================================
+           LANDING PAGE
+           ======================================== */
+        .page {
+            min-height: 100vh;
+            padding-top: 70px;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 20px;
+            background: var(--bg-secondary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            padding: 30px;
+            text-align: center;
+            transition: all var(--transition-medium);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Platforms Section */
+        .platforms {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .platforms h2 {
+            font-size: 24px;
+            margin-bottom: 40px;
+            color: var(--text-secondary);
+        }
+
+        .platform-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .platform-logo {
+            font-size: 32px;
+            opacity: 0.7;
+            transition: all var(--transition-fast);
+        }
+
+        .platform-logo:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 40px 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        /* ========================================
+           LOGIN / SIGNUP PAGE
+           ======================================== */
+        .auth-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all var(--transition-medium);
+            cursor: pointer;
+        }
+
+        .auth-tab.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all var(--transition-fast);
+        }
+
+        .form-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px;
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+        }
+
+        .google-btn:hover {
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .privacy-note {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 20px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+
+        /* Auth Background Animation */
+        .auth-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        .auth-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        /* ========================================
+           DASHBOARD PAGE
+           ======================================== */
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all var(--transition-medium);
+            position: fixed;
+            left: 0;
+            top: 70px;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar-item:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .sidebar-item.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .sidebar-item .icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 10px 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 20px;
+            transition: all var(--transition-medium);
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all var(--transition-fast);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Filter Chips */
+        .filter-chips {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .filter-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+            border: 2px solid transparent;
+        }
+
+        .filter-chip:hover {
+            background: var(--bg-primary);
+            border-color: var(--border);
+        }
+
+        .filter-chip.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .filter-chip .platform-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        /* Message List */
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message-card {
+            padding: 20px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .message-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .message-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .message-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .message-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .message-sender {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .message-platform {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-left: 8px;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .message-preview {
+            color: var(--text-secondary);
+            font-size: 14px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .platform-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .platform-badge.whatsapp { background: rgba(37, 211, 102, 0.15); color: var(--whatsapp); }
+        .platform-badge.gmail { background: rgba(234, 67, 53, 0.15); color: var(--gmail); }
+        .platform-badge.sms { background: rgba(59, 130, 246, 0.15); color: var(--sms); }
+        .platform-badge.slack { background: rgba(74, 21, 75, 0.15); color: var(--slack); }
+        .platform-badge.telegram { background: rgba(0, 136, 204, 0.15); color: var(--telegram); }
+        .platform-badge.instagram { background: rgba(228, 64, 95, 0.15); color: var(--instagram); }
+        .platform-badge.discord { background: rgba(88, 101, 242, 0.15); color: var(--discord); }
+        .platform-badge.facebook { background: rgba(24, 119, 242, 0.15); color: var(--facebook); }
+
+        .scam-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--scam-warning);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: help;
+        }
+
+        .scam-badge .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .connect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .connect-card {
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .connect-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .connect-card .icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .connect-card span {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-medium);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(50px);
+            transition: transform var(--transition-medium);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            background: var(--scam-warning);
+            color: white;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-message {
+            margin-bottom: 30px;
+        }
+
+        .modal-message-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-message-content {
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .ai-suggestions {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .ai-suggestions h4 {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .suggestion-item {
+            padding: 12px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .suggestion-item:hover {
+            border-left: 3px solid var(--accent);
+        }
+
+        .suggestion-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            font-size: 24px;
+            z-index: 1000;
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+           ======================================== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .platform-logos {
+                gap: 20px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-bar {
+                max-width: 100%;
+            }
+
+            .filter-chips {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .modal {
+                margin: 20px;
+                max-height: calc(100vh - 40px);
+            }
+        }
+
+        /* ========================================
+           SCROLLBAR STYLING
+           ======================================== */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
+</head>
+<body data-theme="iconic">
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="container nav-content">
+            <a href="#landing" class="logo">Syincro</a>
+            <div class="nav-links" id="navLinks">
+                <a href="#landing">Home</a>
+                <a href="#landing#features">Features</a>
+                <a href="#login">Login</a>
+                <button class="btn btn-primary" onclick="navigateTo('#login')">Get Started</button>
+            </div>
+            <div class="theme-toggle" id="themeToggle">
+                <button class="theme-btn active" data-theme="iconic" title="Iconic Mode">☀️</button>
+                <button class="theme-btn" data-theme="light" title="Light Mode">🌤️</button>
+                <button class="theme-btn" data-theme="dark" title="Dark Mode">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Landing Page -->
+    <div id="landing" class="page">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="particles" id="heroParticles"></div>
+            <h1 class="animate-fade-in">One inbox.<br>All apps.<br>Zero scams.</h1>
+            <p class="animate-fade-in delay-1">Merge WhatsApp, Gmail, SMS, Slack, Telegram, Instagram, Discord & Facebook into one unified safe inbox with AI-powered scam protection.</p>
+            <div class="hero-buttons animate-fade-in delay-2">
+                <button class="btn btn-primary" onclick="navigateTo('#login')">
+                    🚀 Get Started Free
+                </button>
+                <button class="btn btn-secondary" onclick="document.querySelector('#features').scrollIntoView({behavior: 'smooth'})">
+                    👁️ See How It Works
+                </button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <div class="features-grid">
+                <div class="feature-card glass animate-fade-in-up delay-1">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Unified Inbox</h3>
+                    <p>All your messaging platforms in one place. Never switch apps again.</p>
+                </div>
+                <div class="feature-card glass animate-fade-in-up delay-2">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>AI Scam Shield</h3>
+                    <p>Real-time fraud detection protects you from scams across all platforms.</p>
+                </div>
+                <div class="feature-card glass animate-fade-in-up delay-3">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Smart Replies</h3>
+                    <p>AI drafts perfect responses for any app, saving you time every day.</p>
+                </div>
+                <div class="feature-card glass animate-fade-in-up delay-4">
+                    <div class="feature-icon">✅</div>
+                    <h3>Priority Tasks</h3>
+                    <p>Auto-generate to-dos from important messages. Never miss a thing.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platforms Section -->
+        <section class="platforms">
+            <h2>Connects with all your favorite apps</h2>
+            <div class="platform-logos animate-fade-in delay-1">
+                <span class="platform-logo" style="color: var(--whatsapp)">💬</span>
+                <span class="platform-logo" style="color: var(--gmail)">✉️</span>
+                <span class="platform-logo" style="color: var(--sms)">📱</span>
+                <span class="platform-logo" style="color: var(--slack)">💼</span>
+                <span class="platform-logo" style="color: var(--telegram)">✈️</span>
+                <span class="platform-logo" style="color: var(--instagram)">📸</span>
+                <span class="platform-logo" style="color: var(--discord)">🎮</span>
+                <span class="platform-logo" style="color: var(--facebook)">💙</span>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+                <a href="#">Twitter</a>
+            </div>
+            <p>© 2024 Syincro. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Login / Signup Page -->
+    <div id="login" class="page auth-page hidden">
+        <div class="auth-bg" id="authBg"></div>
+        <div class="auth-container glass animate-slide-up">
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="signup">Sign Up</div>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form" id="loginForm">
+                <button type="button" class="google-btn">
+                    <svg width="20" height="20" viewBox="0 0 20 20">
+                        <path fill="#4285F4" d="M10 20a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"/>
+                        <path fill="#fff" d="M14.3 8.6h-4.3V6h4.3c.4 0 .7.3.7.7v1.2c0 .4-.3.7-.7.7zM10 14c-2.2 0-4-1.8-4-4s1.8-4 4-4c1.1 0 2.1.4 2.8 1.2l1.4-1.4C13.1 4.6 11.6 4 10 4c-3.3 0-6 2.7-6 6s2.7 6 6 6c2.8 0 5.2-1.9 5.8-4.6H10v-2h7.8c.1.3.2.7.2 1.1 0 3-2.5 5.5-5.5 5.5H10z"/>
+                    </svg>
+                    Continue with Google
+                </button>
+
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Login to Syincro</button>
+
+                <div class="auth-footer">
+                    <a href="#" onclick="showModal('forgotPassword')">Forgot password?</a>
+                </div>
+            </form>
+
+            <!-- Signup Form -->
+            <form class="auth-form hidden" id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" class="form-input" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" class="form-input" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" class="form-input" placeholder="••••••••" minlength="8" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+
+            <div class="privacy-note">
+                🔒 We never store your message content. Your privacy is our priority.
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboard" class="page dashboard hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-item active" data-filter="all">
+                <span class="icon">📥</span>
+                <span>All Messages</span>
+            </div>
+            <div class="sidebar-item" data-filter="whatsapp">
+                <span class="icon">💬</span>
+                <span>WhatsApp</span>
+            </div>
+            <div class="sidebar-item" data-filter="gmail">
+                <span class="icon">✉️</span>
+                <span>Gmail</span>
+            </div>
+            <div class="sidebar-item" data-filter="sms">
+                <span class="icon">📱</span>
+                <span>SMS</span>
+            </div>
+            <div class="sidebar-item" data-filter="slack">
+                <span class="icon">💼</span>
+                <span>Slack</span>
+            </div>
+            <div class="sidebar-item" data-filter="telegram">
+                <span class="icon">✈️</span>
+                <span>Telegram</span>
+            </div>
+            <div class="sidebar-item" data-filter="instagram">
+                <span class="icon">📸</span>
+                <span>Instagram</span>
+            </div>
+            <div class="sidebar-item" data-filter="discord">
+                <span class="icon">🎮</span>
+                <span>Discord</span>
+            </div>
+            <div class="sidebar-item" data-filter="facebook">
+                <span class="icon">💙</span>
+                <span>Facebook</span>
+            </div>
+            
+            <div class="sidebar-divider"></div>
+            
+            <div class="sidebar-item" data-filter="flagged">
+                <span class="icon">⚠️</span>
+                <span>Flagged (Scam)</span>
+            </div>
+            <div class="sidebar-item" data-filter="tasks">
+                <span class="icon">✅</span>
+                <span>Tasks</span>
+            </div>
+            
+            <div class="sidebar-divider"></div>
+            
+            <div class="sidebar-item" data-filter="settings">
+                <span class="icon">⚙️</span>
+                <span>Settings</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+                
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search messages...">
+                </div>
+
+                <div class="profile-section">
+                    <div class="theme-toggle" id="dashboardThemeToggle">
+                        <button class="theme-btn active" data-theme="iconic">☀️</button>
+                        <button class="theme-btn" data-theme="light">🌤️</button>
+                        <button class="theme-btn" data-theme="dark">🌙</button>
+                    </div>
+                    <div class="profile-avatar">JD</div>
+                </div>
+            </div>
+
+            <!-- Filter Chips -->
+            <div class="filter-chips">
+                <button class="filter-chip active" data-filter="all">
+                    <span class="platform-dot" style="background: var(--accent)"></span>All
+                </button>
+                <button class="filter-chip" data-filter="whatsapp">
+                    <span class="platform-dot" style="background: var(--whatsapp)"></span>WhatsApp
+                </button>
+                <button class="filter-chip" data-filter="gmail">
+                    <span class="platform-dot" style="background: var(--gmail)"></span>Gmail
+                </button>
+                <button class="filter-chip" data-filter="sms">
+                    <span class="platform-dot" style="background: var(--sms)"></span>SMS
+                </button>
+                <button class="filter-chip" data-filter="slack">
+                    <span class="platform-dot" style="background: var(--slack)"></span>Slack
+                </button>
+                <button class="filter-chip" data-filter="telegram">
+                    <span class="platform-dot" style="background: var(--telegram)"></span>Telegram
+                </button>
+                <button class="filter-chip" data-filter="instagram">
+                    <span class="platform-dot" style="background: var(--instagram)"></span>Instagram
+                </button>
+                <button class="filter-chip" data-filter="discord">
+                    <span class="platform-dot" style="background: var(--discord)"></span>Discord
+                </button>
+                <button class="filter-chip" data-filter="facebook">
+                    <span class="platform-dot" style="background: var(--facebook)"></span>Facebook
+                </button>
+            </div>
+
+            <!-- Message List -->
+            <div class="message-list" id="messageList">
+                <!-- Messages will be populated by JS -->
+            </div>
+
+            <!-- Empty State (shown when no connections) -->
+            <div class="empty-state hidden" id="emptyState">
+                <div class="empty-state-icon">📭</div>
+                <h2>Connect your first app to get started</h2>
+                <p>Link your messaging platforms to see them all in one place</p>
+                <div class="connect-grid">
+                    <div class="connect-card glass">
+                        <div class="icon" style="color: var(--whatsapp)">💬</div>
+                        <span>WhatsApp</span>
+                    </div>
+                    <div class="connect-card glass">
+                        <div class="icon" style="color: var(--gmail)">✉️</div>
+                        <span>Gmail</span>
+                    </div>
+                    <div class="connect-card glass">
+                        <div class="icon" style="color: var(--sms)">📱</div>
+                        <span>SMS</span>
+                    </div>
+                    <div class="connect-card glass">
+                        <div class="icon" style="color: var(--slack)">💼</div>
+                        <span>Slack</span>
+                    </div>
+                    <div class="connect-card glass">
+                        <div class="icon" style="color: var(--telegram)">✈️</div>
+                        <span>Telegram</span>
+                    </div>
+                    <div class="connect-card glass">
+                        <div class="icon" style="color: var(--instagram)">📸</div>
+                        <span>Instagram</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Message Preview Modal -->
+    <div class="modal-overlay" id="messageModal">
+        <div class="modal glass">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Message</h3>
+                <button class="modal-close" onclick="closeModal('messageModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-message">
+                    <div class="modal-message-meta">
+                        <div class="message-avatar" id="modalAvatar">👤</div>
+                        <div>
+                            <div class="message-sender" id="modalSender">Sender Name</div>
+                            <div class="message-platform" id="modalPlatform">via Platform</div>
+                        </div>
+                    </div>
+                    <div class="modal-message-content" id="modalContent">
+                        Message content goes here...
+                    </div>
+                </div>
+
+                <div class="ai-suggestions">
+                    <h4>🤖 AI Suggested Replies</h4>
+                    <div class="suggestion-item">Thanks! I'll get back to you shortly.</div>
+                    <div class="suggestion-item">Could you please provide more details?</div>
+                    <div class="suggestion-item">Sounds good, let's schedule a time to discuss.</div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="showToast('Marked as safe ✓')">✓ Mark Safe</button>
+                    <button class="btn btn-secondary" onclick="showToast('Added to tasks ✓')">✅ Add to Tasks</button>
+                    <button class="btn btn-ghost" onclick="showToast('Reported as scam ⚠️')">⚠️ Report Scam</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal-overlay" id="forgotPassword">
+        <div class="modal glass">
+            <div class="modal-header">
+                <h3 class="modal-title">Reset Password</h3>
+                <button class="modal-close" onclick="closeModal('forgotPassword')">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px; color: var(--text-secondary);">Enter your email address and we'll send you a link to reset your password.</p>
+                <div class="form-group">
+                    <label for="resetEmail">Email</label>
+                    <input type="email" id="resetEmail" class="form-input" placeholder="you@example.com">
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="showToast('Reset link sent!'); closeModal('forgotPassword')">Send Reset Link</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" style="position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: white; padding: 16px 24px; border-radius: 12px; box-shadow: var(--shadow-glow); transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 3000;">
+    </div>
+
+    <script>
+        // ========================================
+        // STATE MANAGEMENT
+        // ========================================
+        const state = {
+            currentTheme: localStorage.getItem('syincro-theme') || 'iconic',
+            currentPage: window.location.hash || '#landing',
+            currentFilter: 'all',
+            messages: []
+        };
+
+        // ========================================
+        // SAMPLE DATA
+        // ========================================
+        const sampleMessages = [
+            {
+                id: 1,
+                platform: 'whatsapp',
+                sender: 'Sarah Johnson',
+                avatar: '👩',
+                preview: 'Hey! Are we still on for the meeting tomorrow at 3pm?',
+                content: 'Hey! Are we still on for the meeting tomorrow at 3pm? I wanted to confirm before I block out my calendar. Also, should I prepare anything specific for the discussion?',
+                time: '2 min ago',
+                isScam: false
+            },
+            {
+                id: 2,
+                platform: 'gmail',
+                sender: 'Amazon Orders',
+                avatar: '📦',
+                preview: 'Your order has been shipped! Track your package now.',
+                content: 'Your order #12345 has been shipped! Track your package now. Expected delivery: Tomorrow by 8 PM. Click here to track your shipment in real-time.',
+                time: '15 min ago',
+                isScam: false
+            },
+            {
+                id: 3,
+                platform: 'sms',
+                sender: '+1 (555) 123-4567',
+                avatar: '📱',
+                preview: 'URGENT: Your account will be suspended. Click here immediately!',
+                content: 'URGENT: Your bank account will be suspended within 24 hours due to suspicious activity. Click this link immediately to verify your identity: bit.ly/scam-link-123',
+                time: '1 hour ago',
+                isScam: true
+            },
+            {
+                id: 4,
+                platform: 'slack',
+                sender: 'Mike Chen',
+                avatar: '👨‍💼',
+                preview: 'The Q4 report is ready for review. Can you take a look?',
+                content: 'The Q4 report is ready for review. Can you take a look before the team meeting on Friday? I've highlighted the key metrics in yellow.',
+                time: '2 hours ago',
+                isScam: false
+            },
+            {
+                id: 5,
+                platform: 'telegram',
+                sender: 'Crypto Alerts',
+                avatar: '🚀',
+                preview: '🎉 CONGRATULATIONS! You\'ve won 5 BTC! Claim now!',
+                content: '🎉 CONGRATULATIONS! You\'ve been selected as our lucky winner! You\'ve won 5 BTC! Click here to claim your prize before it expires! Send 0.1 BTC for verification fee.',
+                time: '3 hours ago',
+                isScam: true
+            },
+            {
+                id: 6,
+                platform: 'instagram',
+                sender: '@designstudio',
+                avatar: '🎨',
+                preview: 'Thanks for following! Check out our latest collection.',
+                content: 'Thanks for following! Check out our latest collection of design templates. Use code WELCOME20 for 20% off your first purchase!',
+                time: '5 hours ago',
+                isScam: false
+            },
+            {
+                id: 7,
+                platform: 'discord',
+                sender: 'Gaming Squad',
+                avatar: '🎮',
+                preview: 'Raid night tonight at 8pm! Don\'t be late!',
+                content: 'Raid night tonight at 8pm! Don\'t be late! We need everyone online for the new expansion launch. Make sure your mic is working.',
+                time: 'Yesterday',
+                isScam: false
+            },
+            {
+                id: 8,
+                platform: 'facebook',
+                sender: 'Jane Smith',
+                avatar: '👩‍🦰',
+                preview: 'Happy birthday! Hope you have an amazing day! 🎂',
+                content: 'Happy birthday! Hope you have an amazing day! 🎂🎉 Let\'s catch up soon over coffee!',
+                time: 'Yesterday',
+                isScam: false
+            }
+        ];
+
+        state.messages = sampleMessages;
+
+        // ========================================
+        // THEME MANAGEMENT
+        // ========================================
+        function initTheme() {
+            document.body.setAttribute('data-theme', state.currentTheme);
+            updateThemeButtons();
+        }
+
+        function setTheme(theme) {
+            state.currentTheme = theme;
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('syincro-theme', theme);
+            updateThemeButtons();
+        }
+
+        function updateThemeButtons() {
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === state.currentTheme);
+            });
+        }
+
+        // Theme toggle event listeners
+        document.querySelectorAll('.theme-toggle').forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                if (e.target.classList.contains('theme-btn')) {
+                    setTheme(e.target.dataset.theme);
+                }
+            });
+        });
+
+        // ========================================
+        // ROUTING
+        // ========================================
+        function navigateTo(hash) {
+            window.location.hash = hash;
+        }
+
+        function handleRouting() {
+            const hash = window.location.hash || '#landing';
+            state.currentPage = hash;
+
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+
+            // Show current page
+            const currentPage = document.querySelector(hash);
+            if (currentPage) {
+                currentPage.classList.remove('hidden');
+            }
+
+            // Update navigation
+            updateNavigation(hash);
+
+            // Initialize page-specific content
+            if (hash === '#dashboard') {
+                renderMessages();
+            }
+        }
+
+        function updateNavigation(hash) {
+            const navLinks = document.getElementById('navLinks');
+            if (hash === '#dashboard') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+            }
+        }
+
+        // ========================================
+        // MESSAGE RENDERING
+        // ========================================
+        function renderMessages(filter = 'all') {
+            const messageList = document.getElementById('messageList');
+            const emptyState = document.getElementById('emptyState');
+            
+            let filteredMessages = state.messages;
+            
+            if (filter !== 'all') {
+                if (filter === 'flagged') {
+                    filteredMessages = state.messages.filter(m => m.isScam);
+                } else if (filter === 'tasks') {
+                    filteredMessages = []; // Would show task items in real app
+                } else {
+                    filteredMessages = state.messages.filter(m => m.platform === filter);
+                }
+            }
+
+            if (filteredMessages.length === 0 && filter !== 'tasks') {
+                messageList.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            messageList.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            messageList.innerHTML = filteredMessages.map((msg, index) => `
+                <div class="message-card glass animate-fade-in" style="animation-delay: ${index * 0.05}s" onclick="openMessageModal(${msg.id})">
+                    ${msg.isScam ? `
+                        <div class="scam-badge" title="AI detected potential scam - suspicious links and urgent language">
+                            <span class="pulse-dot"></span>
+                            ⚠️ SCAM ALERT
+                        </div>
+                    ` : ''}
+                    <div class="message-header">
+                        <div class="message-avatar">${msg.avatar}</div>
+                        <div class="message-info">
+                            <div class="message-top">
+                                <div>
+                                    <span class="message-sender">${msg.sender}</span>
+                                    <span class="platform-badge ${msg.platform}">${msg.platform}</span>
+                                </div>
+                                <span class="message-time">${msg.time}</span>
+                            </div>
+                            <div class="message-preview">${msg.preview}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ========================================
+        // FILTER FUNCTIONALITY
+        // ========================================
+        function setupFilters() {
+            // Sidebar filters
+            document.querySelectorAll('.sidebar-item[data-filter]').forEach(item => {
+                item.addEventListener('click', () => {
+                    const filter = item.dataset.filter;
+                    
+                    // Update sidebar active state
+                    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // Update chip active state
+                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                    const matchingChip = document.querySelector(`.filter-chip[data-filter="${filter}"]`);
+                    if (matchingChip) matchingChip.classList.add('active');
+                    
+                    state.currentFilter = filter;
+                    renderMessages(filter);
+                    
+                    // Close mobile menu
+                    document.getElementById('sidebar').classList.remove('mobile-open');
+                });
+            });
+
+            // Chip filters
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const filter = chip.dataset.filter;
+                    
+                    // Update chip active state
+                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    
+                    // Update sidebar active state
+                    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                    const matchingSidebar = document.querySelector(`.sidebar-item[data-filter="${filter}"]`);
+                    if (matchingSidebar) matchingSidebar.classList.add('active');
+                    
+                    state.currentFilter = filter;
+                    renderMessages(filter);
+                });
+            });
+        }
+
+        // ========================================
+        // MODAL FUNCTIONALITY
+        // ========================================
+        function openMessageModal(messageId) {
+            const message = state.messages.find(m => m.id === messageId);
+            if (!message) return;
+
+            document.getElementById('modalAvatar').textContent = message.avatar;
+            document.getElementById('modalSender').textContent = message.sender;
+            document.getElementById('modalPlatform').textContent = `via ${message.platform.charAt(0).toUpperCase() + message.platform.slice(1)}`;
+            document.getElementById('modalContent').textContent = message.content;
+            document.getElementById('modalTitle').textContent = message.isScam ? '⚠️ Potential Scam Detected' : 'Message';
+
+            const modal = document.getElementById('messageModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ========================================
+        // TOAST NOTIFICATIONS
+        // ========================================
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+
+            setTimeout(() => {
+                toast.style.transform = 'translateY(100px)';
+                toast.style.opacity = '0';
+            }, 3000);
+        }
+
+        // ========================================
+        // AUTH TABS
+        // ========================================
+        function setupAuthTabs() {
+            const tabs = document.querySelectorAll('.auth-tab');
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    if (tab.dataset.tab === 'login') {
+                        loginForm.classList.remove('hidden');
+                        signupForm.classList.add('hidden');
+                    } else {
+                        loginForm.classList.add('hidden');
+                        signupForm.classList.remove('hidden');
+                    }
+                });
+            });
+
+            // Form submissions
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast('Welcome back! Redirecting...');
+                setTimeout(() => navigateTo('#dashboard'), 1000);
+            });
+
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast('Account created! Welcome to Syincro!');
+                setTimeout(() => navigateTo('#dashboard'), 1000);
+            });
+        }
+
+        // ========================================
+        // PARTICLE ANIMATIONS
+        // ========================================
+        function createParticles(containerId, count = 20) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = containerId === 'heroParticles' ? 'particle' : 'auth-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.animationDuration = (5 + Math.random() * 5) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // ========================================
+        // MOBILE MENU
+        // ========================================
+        function setupMobileMenu() {
+            const mobileToggle = document.getElementById('mobileMenuToggle');
+            const sidebar = document.getElementById('sidebar');
+
+            mobileToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('mobile-open');
+            });
+
+            // Close sidebar when clicking outside
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    if (!sidebar.contains(e.target) && !mobileToggle.contains(e.target)) {
+                        sidebar.classList.remove('mobile-open');
+                    }
+                }
+            });
+        }
+
+        // ========================================
+        // SCROLL ANIMATIONS
+        // ========================================
+        function setupScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.feature-card, .platform-logo').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.5s ease';
+                observer.observe(el);
+            });
+        }
+
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        function init() {
+            initTheme();
+            handleRouting();
+            setupFilters();
+            setupAuthTabs();
+            setupMobileMenu();
+            setupScrollAnimations();
+            createParticles('heroParticles', 15);
+            createParticles('authBg', 20);
+
+            // Listen for hash changes
+            window.addEventListener('hashchange', handleRouting);
+        }
+
+        // Run initialization
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
